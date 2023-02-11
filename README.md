@@ -2,6 +2,7 @@
 
 Projeto utilizando java com quarkus, panache-entity, panache-repository, swagger api, partner dto, mapstruts, customException, versionamento, lombok, rest-assured, junit, postgresql, pg-admin, keycloak,  rabbitmq e docker compose.
 
+
  # Arquitetura
  
  ![arquitetura](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/rabbitmq-quarkus.png)
@@ -41,3 +42,7 @@ Projeto utilizando java com quarkus, panache-entity, panache-repository, swagger
   
  # Postgres DB
  ![postgres](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/conf-postgres.png)
+ 
+ 
+ # API EMAIL PARA ENVIAR O PEDIDO DO CLIENTE
+ [API EMAIL](https://github.com/thiago-jv/API_EMAIL_SENDGRID_RABBITMQ_QUARKUS)
