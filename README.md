@@ -26,3 +26,6 @@ Projeto utilizando java com quarkus, panache-entity, panache-repository, swagger
  # Importar REALM
  
  ![keycloak](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/importar.png)
+
+ # Configurações adicionais
+  ![keycloak](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/user.png)
