@@ -31,3 +31,6 @@ Projeto utilizando java com quarkus, panache-entity, panache-repository, swagger
   ![keycloak](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/user.png)
   ![keycloak](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/credenciais.png)
   ![keycloak](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/roleMapping.png)
+  
+ # Postgres DB
+ ![postgres](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/conf-postgres.png)
