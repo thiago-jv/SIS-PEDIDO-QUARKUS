@@ -1,0 +1,15 @@
+{
+  "cliente": {
+    "id": 1
+  },
+  "produtoIdDTOList": [
+    {
+      "id": 2,
+      "quantidade": 1
+    },
+    {
+      "id": 7,
+      "quantidade": 1
+    }
+  ]
+}

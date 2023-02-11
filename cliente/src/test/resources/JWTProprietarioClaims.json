@@ -1,0 +1,12 @@
+{
+    "iss": "http://localhost:8089/auth/realms/quarkus",
+    "jti": "a-123",
+    "sub": "ID do keyclock",
+    "upn": "user@hotmail.com",
+    "preferred_username": "user",
+    "aud": "using-jwt-rbac",
+    "birthdate": "2001-07-13",
+    "groups": [
+        "users"
+    ]
+}

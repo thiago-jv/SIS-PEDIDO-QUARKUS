@@ -1,0 +1,76 @@
+version: '3.5'
+
+volumes:
+  pgdata:
+  zookeeper_data:
+    driver: local
+  kafka_data:
+    driver: local
+
+networks:
+  network:
+    driver: bridge
+
+services:
+ keycloak:
+   container_name: keycloak
+   image: jboss/keycloak:9.0.2
+   environment:
+     - KEYCLOAK_USER=admin
+     - KEYCLOAK_PASSWORD=admin
+   ports:
+     - "8089:8080"
+
+ postgres:
+   image: postgres:latest
+   volumes:
+     - pgdata:/var/lib/postgresql/data
+   restart: always
+   environment:
+     - POSTGRES_USER=admin
+     - POSTGRES_PASSWORD=admin
+     - POSTGRES_DB=bdkitnet
+   ports:
+     - "5432:5432"
+   networks:
+     - network
+
+ pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - "16544:80"
+    networks:
+      - network
+
+ rabbitmq:
+   image: rabbitmq:3-management-alpine
+   container_name: 'rabbitmq'
+   ports:
+     - 5672:5672
+     - 15672:15672
+   volumes:
+     - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+     - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+   networks:
+     - network
+
+   # rabbitmq
+   # usuario: guest
+   # senha: guest
+
+ mongo:
+   ports:
+     - '27017:27017'
+   container_name: mongobd
+   restart: always
+   image: mongo
+
+ mongo-express:
+   container_name: mongo-express
+   ports:
+     - '8081:8081'
+   image: mongo-express
