@@ -2,6 +2,9 @@
 
 Projeto utilizando java com quarkus, panache-entity, panache-repository, swagger api, partner dto, mapstruts, customException, versionamento, lombok, rest-assured, junit, postgresql, pg-admin, keycloak,  rabbitmq e docker compose.
 
+ # Docker
+
+ #[docker](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/docker.png)
 
  # Swagger API
 
