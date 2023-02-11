@@ -4,7 +4,7 @@ Projeto utilizando java com quarkus, panache-entity, panache-repository, swagger
 
  # Docker
 
- #[docker](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/docker.png)
+ ![docker](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/docker.png)
 
  # Swagger API
 
