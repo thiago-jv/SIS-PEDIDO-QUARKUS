@@ -22,3 +22,7 @@ Projeto utilizando java com quarkus, panache-entity, panache-repository, swagger
  # Login keycloak
  
  ![keycloak](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/login-keycloak.png)
+
+ # Importar REALM
+ 
+ ![keycloak](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/importar.png)
