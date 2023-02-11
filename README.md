@@ -8,4 +8,9 @@ Projeto utilizando java com quarkus, panache-entity, panache-repository, swagger
  ![Swagger API](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/swagger.png)
  
   # Credenciais - Swagger API
+  
+  username:user
+  password:123456
+  client-id:front-end
+  
  ![Autenticação](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/login.png)
