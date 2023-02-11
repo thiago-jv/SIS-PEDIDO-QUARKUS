@@ -14,3 +14,7 @@ Projeto utilizando java com quarkus, panache-entity, panache-repository, swagger
   client-id:front-end
   
  ![Autenticação](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/login.png)
+ 
+  # Chave Publica
+ 
+ ![Chave-publica](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/chave-publica.png)
