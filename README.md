@@ -45,4 +45,4 @@ Projeto utilizando java com quarkus, panache-entity, panache-repository, swagger
  
  
  # API EMAIL PARA ENVIAR O PEDIDO DO CLIENTE
- [API EMAIL](https://github.com/thiago-jv/API_EMAIL_SENDGRID_RABBITMQ_QUARKUS)
+ [API EMAIL](https://github.com/thiago-jv/API_EMAIL_SENDGRID_RABBITMQ_QUARKUS/tree/main/rabbitmq)
