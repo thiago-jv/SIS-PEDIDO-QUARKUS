@@ -29,7 +29,7 @@ services:
    environment:
      - POSTGRES_USER=admin
      - POSTGRES_PASSWORD=admin
-     - POSTGRES_DB=bdkitnet
+     - POSTGRES_DB=bdpedido
    ports:
      - "5432:5432"
    networks:
@@ -74,3 +74,37 @@ services:
    ports:
      - '8081:8081'
    image: mongo-express
+
+ zookeeper:
+   image: docker.io/bitnami/zookeeper:3
+   ports:
+     - "2181:2181"
+   volumes:
+     - "zookeeper_data:/bitnami"
+   environment:
+     - ALLOW_ANONYMOUS_LOGIN=yes
+   networks:
+     - network
+ kafka:
+     image: docker.io/bitnami/kafka:2
+     ports:
+       - "9092:9092"
+     volumes:
+       - "kafka_data:/bitnami"
+     environment:
+       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+       - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT
+       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+       - ALLOW_PLAINTEXT_LISTENER=yes
+     depends_on:
+       - zookeeper
+     networks:
+       - network
+ zipkin:
+     image: openzipkin/zipkin
+     ports:
+       - "9411:9411"
+     networks:
+       - network
+
+

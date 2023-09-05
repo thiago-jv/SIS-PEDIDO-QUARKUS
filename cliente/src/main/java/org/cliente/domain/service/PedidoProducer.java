@@ -6,10 +6,13 @@ import io.quarkus.logging.Log;
 import org.cliente.domain.dto.ClienteDTO;
 import org.cliente.domain.dto.PedidoDTO;
 import org.cliente.domain.dto.PedidoEmailDTO;
+import org.cliente.message.KafkaEvents;
+import org.cliente.message.RabitMqEvents;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.time.format.DateTimeFormatter;
@@ -18,12 +21,13 @@ import java.util.Optional;
 @ApplicationScoped
 public class PedidoProducer {
 
-    @Channel("pedido-queue")
-    Emitter<String> emitter;
+    @Inject
+    private RabitMqEvents rabitMqEvents;
 
-    @Produces(MediaType.APPLICATION_JSON)
+    @Inject
+    private KafkaEvents kafkaEvents;
+
     public void enviaPedidoProducer(PedidoDTO pedidoDTO, Optional<ClienteDTO> clienteOptional) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         if(clienteOptional.isPresent()) {
@@ -35,9 +39,10 @@ public class PedidoProducer {
                     .valorTotal(pedidoDTO.getValorTotal().toString())
                     .cliente(cliente.getNome())
                     .build();
+            rabitMqEvents.enviaToFila(pedido);
 
-            emitter.send(objectMapper.writeValueAsString(pedido));
-            Log.info("Producer -> " + pedido.toString());
+            kafkaEvents.enviaToFila(pedido);
+
         }
     }
 

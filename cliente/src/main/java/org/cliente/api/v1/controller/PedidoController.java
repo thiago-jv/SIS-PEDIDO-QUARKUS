@@ -22,10 +22,10 @@ import javax.ws.rs.core.MediaType;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @Path("/v1/pedidos")
-@SecurityScheme(securitySchemeName = "quarkus-oauth",
-        type = SecuritySchemeType.OAUTH2,
-        flows = @OAuthFlows(password = @OAuthFlow(tokenUrl = "http://localhost:8089/auth/realms/quarkus/protocol/openid-connect/token")))
-@SecurityRequirement(name = "quarkus-oauth")
+//@SecurityScheme(securitySchemeName = "quarkus-oauth",
+//        type = SecuritySchemeType.OAUTH2,
+//        flows = @OAuthFlows(password = @OAuthFlow(tokenUrl = "http://localhost:8089/auth/realms/quarkus/protocol/openid-connect/token")))
+//@SecurityRequirement(name = "quarkus-oauth")
 public class PedidoController {
 
     private final PedidoService pedidoService;

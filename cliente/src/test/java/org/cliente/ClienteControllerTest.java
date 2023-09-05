@@ -26,15 +26,15 @@ class ClienteControllerTest {
 
     private String token;
 
-    @BeforeEach
-    public void geraToken() throws Exception {
-        token = TokenUtils.generateTokenString("/JWTProprietarioClaims.json", null);
-    }
+//    @BeforeEach
+//    public void geraToken() throws Exception {
+//        token = TokenUtils.generateTokenString("/JWTProprietarioClaims.json", null);
+//    }
 
-    private RequestSpecification given() {
-        return RestAssured.given()
-                .contentType(ContentType.JSON).header(new Header("Authorization", "Bearer " + token));
-    }
+//    private RequestSpecification given() {
+//        return RestAssured.given()
+//                .contentType(ContentType.JSON).header(new Header("Authorization", "Bearer " + token));
+//    }
 
     @Test
     @Order(1)
