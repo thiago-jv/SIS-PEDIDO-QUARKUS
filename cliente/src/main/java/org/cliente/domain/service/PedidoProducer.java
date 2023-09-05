@@ -40,7 +40,6 @@ public class PedidoProducer {
                     .cliente(cliente.getNome())
                     .build();
             rabitMqEvents.enviaToFila(pedido);
-
             kafkaEvents.enviaToFila(pedido);
 
         }
