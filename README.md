@@ -5,7 +5,7 @@ Projeto utilizando java com quarkus, panache-entity, panache-repository, swagger
 
  # Arquitetura
  
- ![arquitetura](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/rabbitmq-quarkus.png)
+ ![arquitetura](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/rabbitmq-quarkus.drawio.png)
 
  # Docker
 
