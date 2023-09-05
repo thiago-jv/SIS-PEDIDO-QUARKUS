@@ -42,6 +42,11 @@ Projeto utilizando java com quarkus, panache-entity, panache-repository, swagger
   
  # Postgres DB
  ![postgres](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/conf-postgres.png)
+
+ # Kafka Magic
+ https://www.kafkamagic.com/download/
+ utilizado para visualizar os topicos e filas
+ ![kafka](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/kafka-magic.png)
  
  
  # API EMAIL PARA ENVIAR O PEDIDO DO CLIENTE
