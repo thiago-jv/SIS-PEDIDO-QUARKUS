@@ -16,7 +16,7 @@ public class WireMockRestClient implements QuarkusTestResourceLifecycleManager {
         wireMock = new WireMockServer(6223);
         wireMock.start();
 
-        return Map.of("quarkus.rest-client.api-cep.url", wireMock.baseUrl());
+        return Map.of("quarkus.rest-client.cep-api.url", wireMock.baseUrl());
     }
 
     @Override
