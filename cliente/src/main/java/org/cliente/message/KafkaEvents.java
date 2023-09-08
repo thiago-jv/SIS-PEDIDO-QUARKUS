@@ -30,7 +30,7 @@ public class KafkaEvents {
     @ConfigProperty(name = "topico.pedido.kafka")
     private String topicoPedido;
 
-    @Channel("pedido")
+    @Channel("pedido-out")
     Emitter<String> emitterKafka;
 
     // estrategia de pre, pos e mais processamento antes do commit
