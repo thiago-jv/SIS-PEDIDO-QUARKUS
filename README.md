@@ -13,7 +13,7 @@ Projeto utilizando java 17 com quarkus, panache-entity, panache-repository, swag
 
  # Swagger API
 
- ![Swagger API](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/swagger.png)
+ ![Swagger API](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/swagger_.png)
  
   # Credenciais - Swagger API
   
