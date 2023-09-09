@@ -1,16 +1,5 @@
 version: '3.5'
 
-volumes:
-  pgdata:
-  zookeeper_data:
-    driver: local
-  kafka_data:
-    driver: local
-
-networks:
-  network:
-    driver: bridge
-
 services:
  keycloak:
    container_name: keycloak
@@ -85,6 +74,7 @@ services:
      - ALLOW_ANONYMOUS_LOGIN=yes
    networks:
      - network
+
  kafka:
      image: docker.io/bitnami/kafka:2
      ports:
@@ -100,11 +90,29 @@ services:
        - zookeeper
      networks:
        - network
- zipkin:
-     image: openzipkin/zipkin
-     ports:
-       - "9411:9411"
-     networks:
-       - network
 
+ redis:
+   image: redis
+   restart: always
+   ports:
+       - "6379:6379"
+   volumes:
+       - redis:/data
+ redisinsight:
+   image: redislabs/redisinsight:latest
+   ports:
+     - '8001:8001'
+
+volumes:
+  pgdata:
+  zookeeper_data:
+    driver: local
+  kafka_data:
+    driver: local
+  redis:
+    driver: local
+
+networks:
+  network:
+    driver: bridge
 

@@ -1,6 +1,7 @@
 package org.cliente.domain.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import io.smallrye.common.annotation.NonBlocking;
 import org.cliente.api.v1.handler.CustomException;
 import org.cliente.api.v1.mapper.ItemMapper;
 import org.cliente.api.v1.mapper.PedidoMapper;
@@ -11,6 +12,7 @@ import org.cliente.domain.dto.PedidoDTO;
 import org.cliente.domain.dto.ProdutoDTO;
 import org.cliente.domain.dto.ProdutoIdDTO;
 import org.cliente.domain.repository.ItemRepository;
+import org.cliente.redis.RedisService;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
@@ -38,7 +40,10 @@ public class PedidoService {
 
     private final PedidoProducer pedidoProducer;
 
-    public PedidoService(PedidoMapper pedidoMapper, ProdutoService produtoService, ItemRepository itemRepository, ItemMapper itemMapper, ClienteService clienteService, EntityManager entityManager, PedidoProducer pedidoProducer) {
+    private final RedisService redisService;
+
+
+    public PedidoService(PedidoMapper pedidoMapper, ProdutoService produtoService, ItemRepository itemRepository, ItemMapper itemMapper, ClienteService clienteService, EntityManager entityManager, PedidoProducer pedidoProducer, RedisService redisService) {
         this.pedidoMapper = pedidoMapper;
         this.produtoService = produtoService;
         this.itemRepository = itemRepository;
@@ -46,6 +51,7 @@ public class PedidoService {
         this.clienteService = clienteService;
         this.entityManager = entityManager;
         this.pedidoProducer = pedidoProducer;
+        this.redisService = redisService;
     }
 
     @Transactional
@@ -93,6 +99,8 @@ public class PedidoService {
             });
         }
         pedidoProducer.enviaPedidoProducer(pedidoSalvo, clienteOptional);
+        redisService.salvaPedido(pedidoSalvo);
+
         return pedidoSalvo;
     }
 

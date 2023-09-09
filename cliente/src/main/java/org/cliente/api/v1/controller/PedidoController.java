@@ -5,18 +5,11 @@ import org.cliente.api.v1.dto.response.PedidoResponseDTO;
 import org.cliente.api.v1.handler.CustomException;
 import org.cliente.api.v1.mapper.PedidoMapper;
 import org.cliente.domain.service.PedidoService;
+import org.cliente.redis.RedisService;
 import org.eclipse.microprofile.openapi.annotations.Operation;
-import org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType;
-import org.eclipse.microprofile.openapi.annotations.security.OAuthFlow;
-import org.eclipse.microprofile.openapi.annotations.security.OAuthFlows;
-import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
-import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme;
 
 import javax.transaction.Transactional;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 @Consumes(MediaType.APPLICATION_JSON)
@@ -32,9 +25,12 @@ public class PedidoController {
 
     private final PedidoMapper pedidoMapper;
 
-    public PedidoController(PedidoService pedidoService, PedidoMapper pedidoMapper) {
+    private final RedisService redisService;
+
+    public PedidoController(PedidoService pedidoService, PedidoMapper pedidoMapper, RedisService redisService) {
         this.pedidoService = pedidoService;
         this.pedidoMapper = pedidoMapper;
+        this.redisService = redisService;
     }
 
     @Operation(summary = "Realiza cadastro do pedido",
@@ -48,4 +44,17 @@ public class PedidoController {
             throw new CustomException(e.getMessage());
         }
     }
+
+    @Operation(summary = "Realiza busca de pedido",
+            description = "Realiza busca de pedido na base REDIS")
+    @GET
+    @Path("/{id}")
+    public PedidoResponseDTO buscaPedido(@PathParam("id") String id) {
+        try {
+            return pedidoMapper.paraPedidoResponseDTO(redisService.buscaPorId(id));
+        } catch (Exception e) {
+            throw new CustomException(e.getMessage());
+        }
+    }
+
 }
