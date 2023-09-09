@@ -7,10 +7,6 @@ Projeto utilizando java 17 com quarkus, panache-entity, panache-repository, swag
  
  ![arquitetura](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/arquitetura.drawio.png)
 
- # Docker
-
- ![docker](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/docker.png)
-
  # Swagger API
 
  ![Swagger API](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/swagger_.png)
