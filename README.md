@@ -5,7 +5,7 @@ Projeto utilizando java 17 com quarkus, panache-entity, panache-repository, swag
 
  # Arquitetura
  
- ![arquitetura](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/rabbitmq-quarkus.drawio.png)
+ ![arquitetura](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/arquitetura.drawio.png)
 
  # Docker
 
