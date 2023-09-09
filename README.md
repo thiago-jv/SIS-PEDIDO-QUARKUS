@@ -5,15 +5,11 @@ Projeto utilizando java 17 com quarkus, panache-entity, panache-repository, swag
 
  # Arquitetura
  
- ![arquitetura](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/rabbitmq-quarkus.drawio.png)
-
- # Docker
-
- ![docker](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/docker.png)
+ ![arquitetura](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/arquitetura.drawio.png)
 
  # Swagger API
 
- ![Swagger API](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/swagger.png)
+ ![Swagger API](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/swagger_.png)
  
   # Credenciais - Swagger API
   
@@ -47,6 +43,9 @@ Projeto utilizando java 17 com quarkus, panache-entity, panache-repository, swag
  https://www.kafkamagic.com/download/
  utilizado para visualizar os topicos e filas
  ![kafka](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/kafka-magic.png)
+
+# Redis redislabs
+ ![Redis](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/redis-register.png)
  
  
  # API EMAIL PARA ENVIAR O PEDIDO DO CLIENTE
