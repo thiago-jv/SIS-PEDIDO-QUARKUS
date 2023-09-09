@@ -47,6 +47,9 @@ Projeto utilizando java 17 com quarkus, panache-entity, panache-repository, swag
  https://www.kafkamagic.com/download/
  utilizado para visualizar os topicos e filas
  ![kafka](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/kafka-magic.png)
+
+# Redis redislabs
+ ![Redis](https://github.com/thiago-jv/SIS-PEDIDO-QUARKUS/blob/main/redis-register.png)
  
  
  # API EMAIL PARA ENVIAR O PEDIDO DO CLIENTE
