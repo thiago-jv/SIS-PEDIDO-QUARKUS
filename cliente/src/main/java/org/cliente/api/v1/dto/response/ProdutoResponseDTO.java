@@ -1,11 +1,9 @@
 package org.cliente.api.v1.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.math.BigDecimal;
 

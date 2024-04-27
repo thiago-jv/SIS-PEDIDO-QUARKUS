@@ -1,7 +1,6 @@
 package org.cliente.api.v1.mapper;
 
 import org.cliente.api.v1.dto.request.LancamentoPedidoRequestDTO;
-import org.cliente.api.v1.dto.request.PedidoRequestDTO;
 import org.cliente.api.v1.dto.response.PedidoResponseDTO;
 import org.cliente.domain.dto.LancamentoPedidoDTO;
 import org.cliente.domain.dto.PedidoDTO;

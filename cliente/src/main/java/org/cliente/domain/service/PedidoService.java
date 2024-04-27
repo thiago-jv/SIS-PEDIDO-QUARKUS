@@ -1,8 +1,8 @@
 package org.cliente.domain.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import io.smallrye.common.annotation.NonBlocking;
-import org.cliente.api.v1.handler.CustomException;
+import org.cliente.api.v1.handler.BusinnesException;
+import org.cliente.api.v1.handler.ConflictException;
 import org.cliente.api.v1.mapper.ItemMapper;
 import org.cliente.api.v1.mapper.PedidoMapper;
 import org.cliente.domain.dto.ClienteDTO;
@@ -55,36 +55,28 @@ public class PedidoService {
     }
 
     @Transactional
-    public PedidoDTO processa(LancamentoPedidoDTO lancamentoPedidoDTO) throws JsonProcessingException {
+    public PedidoDTO processa(LancamentoPedidoDTO lancamentoPedidoDTO) {
         List<ItemDTO> itensDTO = new ArrayList<>();
         var pedidoDTO = new PedidoDTO();
         var pedidoSalvo = new PedidoDTO();
 
-        Optional<ClienteDTO> clienteOptional = Optional.ofNullable(clienteService.buscaPorId(lancamentoPedidoDTO.getCliente().getId()));
-           if (clienteOptional.isPresent()) {
-                pedidoDTO.setCliente(lancamentoPedidoDTO.getCliente());
-
-                lancamentoPedidoDTO.getProdutoIdDTOList().stream().forEach(idProduto -> {
-                    Optional<ProdutoDTO> produtoOptional = Optional.ofNullable(produtoService.buscaPorId(idProduto.getId()));
-                    if (produtoOptional.isPresent()) {
-                        var produto = produtoOptional.get();
-
-                        if (produto.getQuantidade() >= idProduto.getQuantidade()) {
-                            var item = new ItemDTO();
-                            item.setQuantidade(idProduto.getQuantidade());
-                            item.setValorParcial(produto.getPreco());
-                            item.setProduto(produto);
-                            itensDTO.add(item);
-                            pedidoDTO.setValorTotal(pedidoDTO.getValorTotal().add(BigDecimal.valueOf(item.getQuantidade()).multiply(item.getValorParcial())));
-                            atualizaEstoqueProduto(idProduto, produto);
-                        } else {
-                            throw new CustomException("Quantidade " + idProduto.getQuantidade() + " maior que estoque do produto " + produto.getDescricao() + " com estoque " + produto.getQuantidade());
-                        }
-                    }
-                });
-            } else {
-                throw new CustomException("Cliente: " + clienteOptional.get().getNome() + " não encontrado");
-            }
+        Optional<ClienteDTO> clienteOptional = Optional.ofNullable(clienteService.clienteDTObuscaPorId(lancamentoPedidoDTO.getCliente().getId()));
+        if (clienteOptional.isPresent()) {
+            pedidoDTO.setCliente(lancamentoPedidoDTO.getCliente());
+            lancamentoPedidoDTO.getProdutoIdDTOList().stream().forEach(idProduto -> {
+                Optional<ProdutoDTO> produtoOptional = Optional.ofNullable(produtoService.produtoDTObuscaPorId(idProduto.getId()));
+                var produto = produtoOptional.get();
+                if (validaQuantidadeEstoque(produto, idProduto)) {
+                    var item = new ItemDTO();
+                    item.setQuantidade(idProduto.getQuantidade());
+                    item.setValorParcial(produto.getPreco());
+                    item.setProduto(produto);
+                    itensDTO.add(item);
+                    pedidoDTO.setValorTotal(pedidoDTO.getValorTotal().add(BigDecimal.valueOf(item.getQuantidade()).multiply(item.getValorParcial())));
+                    atualizaEstoqueProduto(idProduto, produto);
+                }
+            });
+        }
 
 
         if (itensDTO.size() != 0) {
@@ -98,11 +90,30 @@ public class PedidoService {
                 itemRepository.persist(itemMapper.paraItemEntity(item));
             });
         }
-        pedidoProducer.enviaPedidoProducer(pedidoSalvo, clienteOptional);
-        redisService.salvaPedido(pedidoSalvo);
+        try {
+            redisService.salvaPedido(pedidoSalvo);
+        } catch (JsonProcessingException e) {
+            throw new BusinnesException(e.getMessage());
+        }
+        try {
+            pedidoProducer.enviaPedidoProducer(pedidoSalvo, clienteOptional);
+        } catch (JsonProcessingException e) {
+            throw new BusinnesException(e.getMessage());
+        }
 
         return pedidoSalvo;
     }
+
+    private boolean validaQuantidadeEstoque(ProdutoDTO produto, ProdutoIdDTO idProduto) {
+        if(!isEstoque(produto, idProduto)){
+            throw new ConflictException("Quantidade " + idProduto.getQuantidade() + " maior que estoque do produto " + produto.getDescricao() + " com estoque " + produto.getQuantidade());
+        }
+        return true;
+    }
+    private boolean isEstoque(ProdutoDTO produto, ProdutoIdDTO idProduto) {
+        return produto.getQuantidade() >= idProduto.getQuantidade();
+    }
+
 
     private void atualizaEstoqueProduto(ProdutoIdDTO idProduto, ProdutoDTO produto) {
         produto.setQuantidade(produto.getQuantidade() - idProduto.getQuantidade());

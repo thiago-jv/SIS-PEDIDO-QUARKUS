@@ -1,17 +1,16 @@
 package org.cliente.api.v1.controller;
 
+import io.quarkus.logging.Log;
 import org.apache.http.HttpStatus;
 import org.cliente.api.v1.dto.request.ClienteRequestDTO;
 import org.cliente.api.v1.dto.response.ClienteResponseDTO;
 import org.cliente.api.v1.handler.CustomException;
+import org.cliente.api.v1.handler.exception.Exception;
+import org.cliente.api.v1.handler.exception.ExceptionDTO;
+import org.cliente.api.v1.handler.NotFoundException;
 import org.cliente.api.v1.mapper.ClienteMapper;
 import org.cliente.domain.service.ClienteService;
 import org.eclipse.microprofile.openapi.annotations.Operation;
-import org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType;
-import org.eclipse.microprofile.openapi.annotations.security.OAuthFlow;
-import org.eclipse.microprofile.openapi.annotations.security.OAuthFlows;
-import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
-import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme;
 import org.jboss.resteasy.reactive.ResponseStatus;
 
 import javax.transaction.Transactional;
@@ -71,8 +70,11 @@ public class ClienteController {
     public ClienteResponseDTO atualiza(@PathParam("id") Long id, ClienteRequestDTO clienteDTO) {
         try {
             return clienteMapper.paraClienteResponseDTO(clienteService.atualiza(id, clienteMapper.paraClienteDTO(clienteDTO)));
-        } catch (Exception e) {
-            throw new CustomException(e.getMessage());
+        } catch (NotFoundException e) {
+            Log.error(e.getMessage());
+            throw new CustomException(404, new ExceptionDTO(e.getMessage()));
+        } catch (Exception ex) {
+            throw new CustomException(ex.getMessage());
         }
     }
 
@@ -85,9 +87,12 @@ public class ClienteController {
     public void deleta(@PathParam("id") Long id) {
         try {
             clienteService.deleta(id);
-        } catch (Exception e) {
-            throw new CustomException(e.getMessage());
+        } catch (NotFoundException e) {
+            Log.error(e.getMessage());
+            throw new CustomException(404, new ExceptionDTO(e.getMessage()));
+        } catch (Exception ex) {
+            throw new CustomException(ex.getMessage());
         }
-
     }
+
 }

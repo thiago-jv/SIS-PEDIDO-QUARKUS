@@ -1,8 +1,14 @@
 package org.cliente.api.v1.controller;
 
+import io.quarkus.logging.Log;
 import org.cliente.api.v1.dto.request.LancamentoPedidoRequestDTO;
 import org.cliente.api.v1.dto.response.PedidoResponseDTO;
+import org.cliente.api.v1.handler.BusinnesException;
+import org.cliente.api.v1.handler.ConflictException;
 import org.cliente.api.v1.handler.CustomException;
+import org.cliente.api.v1.handler.NotFoundException;
+import org.cliente.api.v1.handler.exception.Exception;
+import org.cliente.api.v1.handler.exception.ExceptionDTO;
 import org.cliente.api.v1.mapper.PedidoMapper;
 import org.cliente.domain.service.PedidoService;
 import org.cliente.redis.RedisService;
@@ -40,8 +46,17 @@ public class PedidoController {
     public PedidoResponseDTO salva(LancamentoPedidoRequestDTO lancamentoPedidoDTO) {
         try {
             return pedidoMapper.paraPedidoResponseDTO(pedidoService.processa(pedidoMapper.paraLancamentoPedidoDTO(lancamentoPedidoDTO)));
-        } catch (Exception e) {
-            throw new CustomException(e.getMessage());
+        } catch (ConflictException e) {
+            Log.error(e.getMessage());
+            throw new CustomException(409, new ExceptionDTO(e.getMessage()));
+        } catch (NotFoundException e) {
+            Log.error(e.getMessage());
+            throw new CustomException(404, new ExceptionDTO(e.getMessage()));
+        } catch (BusinnesException e) {
+            Log.error(e.getMessage());
+            throw new CustomException(400, new ExceptionDTO(e.getMessage()));
+        } catch (Exception ex) {
+            throw new CustomException(ex.getMessage());
         }
     }
 
@@ -52,8 +67,11 @@ public class PedidoController {
     public PedidoResponseDTO buscaPedido(@PathParam("id") String id) {
         try {
             return pedidoMapper.paraPedidoResponseDTO(redisService.buscaPorId(id));
-        } catch (Exception e) {
-            throw new CustomException(e.getMessage());
+        } catch (NotFoundException e) {
+            Log.error(e.getMessage());
+            throw new CustomException(404, new ExceptionDTO(e.getMessage()));
+        } catch (Exception ex) {
+            throw new CustomException(ex.getMessage());
         }
     }
 

@@ -3,7 +3,8 @@ package org.cliente.redis;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.redis.client.RedisClient;
-import org.cliente.api.v1.handler.CustomException;
+import org.cliente.api.v1.handler.BusinnesException;
+import org.cliente.api.v1.handler.NotFoundException;
 import org.cliente.domain.dto.PedidoDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,17 +41,17 @@ public class RedisService {
         return pedido;
     }
 
-    public PedidoDTO buscaPorId(String id) throws JsonProcessingException {
+    public PedidoDTO buscaPorId(String id) {
         ObjectMapper objectMapper = new ObjectMapper();
         var response = redisClient.get(id);
-        if(Objects.isNull(response)){
-            try {
-                throw new CustomException("Registro não encontrado na base do REDIS " + id);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+        if (Objects.isNull(response)) {
+            throw new NotFoundException("Registro com id " +id+ " não encontrado na base do REDIS ");
         } else {
-            return objectMapper.readValue(response.toString(), PedidoDTO.class);
+            try {
+                return objectMapper.readValue(response.toString(), PedidoDTO.class);
+            } catch (JsonProcessingException e) {
+                throw new BusinnesException(e.getMessage());
+            }
         }
     }
 }

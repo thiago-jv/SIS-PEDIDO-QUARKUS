@@ -1,14 +1,15 @@
 package org.cliente.domain.service;
 
-import org.cliente.api.v1.handler.CustomException;
+import org.cliente.api.v1.handler.NotFoundException;
 import org.cliente.api.v1.mapper.ClienteMapper;
 import org.cliente.domain.dto.ClienteDTO;
-import org.cliente.domain.dto.ProdutoDTO;
+import org.cliente.domain.entity.ClienteEntity;
 import org.cliente.domain.repository.ClienteRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Objects;
 
 @ApplicationScoped
 public class ClienteService {
@@ -29,8 +30,20 @@ public class ClienteService {
         return clienteMapper.paraListaClienteDTO(clienteRepository.findAll().stream().toList());
     }
 
-    public ClienteDTO buscaPorId(Long id) {
-        return clienteMapper.paraClienteDTO(clienteRepository.findByIdOptional(id).orElseThrow(() -> new CustomException("Id:" + id + " não encontrado")));
+    public ClienteDTO clienteDTObuscaPorId(Long id) {
+        ClienteEntity cliente = clienteRepository.findById(id);
+        if (Objects.isNull(cliente)) {
+            throw new NotFoundException("Cliente: " + id + " não encontrado");
+        }
+        return clienteMapper.paraClienteDTO(cliente);
+    }
+
+    public ClienteEntity ClienteEntitybuscaPorId(Long id) {
+        ClienteEntity cliente = clienteRepository.findById(id);
+        if (Objects.isNull(cliente)) {
+            throw new NotFoundException("Cliente: " + id + " não encontrado");
+        }
+        return cliente;
     }
 
     public ClienteDTO salva(ClienteDTO clienteDTO) {
@@ -38,18 +51,16 @@ public class ClienteService {
     }
 
     public ClienteDTO atualiza(Long id, ClienteDTO clienteDTO) {
-        var entity = clienteRepository.findById(id);
-        entity = clienteMapper.paraClienteEntity(clienteDTO);
-        return clienteMapper.paraClienteDTO(entityManager.merge(entity));
+        var cliente = ClienteEntitybuscaPorId(id);
+        cliente = clienteMapper.paraClienteEntity(clienteDTO);
+        return clienteMapper.paraClienteDTO(entityManager.merge(cliente));
     }
 
     public void deleta(Long id) {
-        try {
-            clienteRepository.deleteById(id);
-        } catch (Exception e) {
-            throw new CustomException("Entidade ou recurso não encontrado " +id);
-        }
+        ClienteEntitybuscaPorId(id);
+        clienteRepository.deleteById(id);
 
     }
+
 
 }
