@@ -1,6 +1,6 @@
 # SIS-PEDIDO-QUARKUS
 
-Projeto utilizando java 17 com quarkus, panache-entity, panache-repository, swagger api, partner dto, mapstruts, customException, versionamento, lombok, rest-assured, junit, postgresql, pg-admin, rabbitmq, kafka e docker compose.
+Projeto utilizando java 17 com quarkus, panache-entity, panache-repository, restClient, swagger api, profile, Cors, partner dto, mapstruts, customExceptionHandler, versionamento, lombok, rest-assured, junit, postgresql, REDIS, pg-admin, keycloak, rabbitmq, Kafka e docker compose.
 
 
  # Arquitetura
