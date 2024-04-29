@@ -2,6 +2,8 @@ package org.cliente.api.v1.controller;
 
 import io.quarkus.logging.Log;
 import org.apache.http.HttpStatus;
+import org.cliente.api.v1.dto.pagination.FilterDTO;
+import org.cliente.api.v1.dto.pagination.PageResponseDTO;
 import org.cliente.api.v1.dto.request.ProdutoRequestDTO;
 import org.cliente.api.v1.dto.response.ProdutoResponseDTO;
 import org.cliente.api.v1.handler.CustomException;
@@ -9,19 +11,13 @@ import org.cliente.api.v1.handler.NotFoundException;
 import org.cliente.api.v1.handler.exception.Exception;
 import org.cliente.api.v1.handler.exception.ExceptionDTO;
 import org.cliente.api.v1.mapper.ProdutoMapper;
+import org.cliente.domain.dto.ProdutoDTO;
 import org.cliente.domain.service.ProdutoService;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.jboss.resteasy.reactive.ResponseStatus;
 
 import javax.transaction.Transactional;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
@@ -46,8 +42,8 @@ public class ProdutoController {
     @Operation(summary = "Busca todos os produtos",
             description = "Realiza busca de produtos")
     @GET
-    public List<ProdutoResponseDTO> buscaTodos() {
-        return produtoMapper.paraListProdutoResponseDTO(produtoService.buscaTodos());
+    public PageResponseDTO<List<ProdutoDTO>> buscaTodos(@BeanParam FilterDTO filterDTO) {
+        return produtoService.buscaTodos(filterDTO);
     }
 
     @Operation(summary = "Realiza insert do produto",
